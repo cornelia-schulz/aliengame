@@ -5,6 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    character: '',
+    characterChoices: ['baker', 'mechanic', 'artist'],
     questions: [
       {
         question: "What's your dog's name?",
@@ -42,9 +44,16 @@ export default new Vuex.Store({
         mechanic: 'brown paste',
         artist: 'groundnut smoosh'
       }
-    ]
+    ],
+    uiState: 'start'
   },
   mutations: {
+    pickCharacter (state, character) {
+      state.character = character
+    },
+    updateUIState (state, uistate) {
+      state.uiState = uistate
+    }
   },
   actions: {
   },
