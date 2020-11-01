@@ -13,7 +13,7 @@
       </p>
       <button @click="pickCharacter">Pick your character!</button>
     </GamestateStart>
-    <section v-else>
+    <section v-else-if="uiState === 'characterChosen'">
       <svg viewBox="0 -180 1628 1180" class="main">
         <defs>
           <clipPath id="bottom-clip">
@@ -64,25 +64,39 @@
           />
         </g>
       </svg>
+      <div class="friendtalk">
+        <h3>{{ questions[questionIndex].question}}</h3>
+      </div>
+      <div class="zombietalk">
+        <p v-for="character in shuffle(characterChoices)" :key="character">
+          <button @click="pickAnswer(character)">
+            {{ questions[questionIndex][character] }}
+          </button>
+        </p>
+      </div>
     </section>
+    <GamestateFinish v-else />
   </div>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import gsap from 'gsap'
 import Artist from '@/components/Artist.vue'
 import Baker from '@/components/Baker.vue'
 import Friend from '@/components/Friend.vue'
+import GamestateFinish from '@/components/GamestateFinish'
+import GamestateStart from '@/components/GamestateStart'
 import Mechanic from '@/components/Mechanic.vue'
 import Score from '@/components/Score.vue'
 import Zombie from '@/components/Zombie.vue'
-import GamestateStart from '@/components/GamestateStart'
 
 export default {
   components: {
     Artist,
     Baker,
     Friend,
+    GamestateFinish,
     GamestateStart,
     Mechanic,
     Score,
@@ -98,6 +112,8 @@ export default {
       'character',
       'characterChoices',
       'questions',
+      'questionIndex',
+      'score',
       'uiState'
     ])
   },
@@ -105,6 +121,23 @@ export default {
     pickCharacter () {
       this.$store.commit('pickCharacter', this.characterInput)
       this.$store.commit('updateUIState', 'characterChosen')
+    },
+    pickAnswer (character) {
+      this.$store.commit('pickAnswer', character)
+    },
+    shuffle (array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i - 1))
+        ;[array[i], array[j]] = [array[j], array[i]]
+      }
+      return array
+    }
+  },
+  watch: {
+    score (newValue, oldValue) {
+      gsap.to('.bottom-clip-path, .top-clip-path', {
+        y: -newValue * 6
+      })
     }
   }
 }

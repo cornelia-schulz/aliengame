@@ -45,18 +45,31 @@ export default new Vuex.Store({
         artist: 'groundnut smoosh'
       }
     ],
+    questionIndex: 0,
+    score: 0,
     uiState: 'start'
   },
   mutations: {
+    pickAnswer (state, character) {
+      character === state.character ? state.score += 13 : state.score -= 13
+      if (state.questionIndex < state.questions.length - 1) {
+        state.questionIndex++
+      } else {
+        Math.sign(state.score) > 0
+          ? state.uiState = 'won'
+          : state.uiState = 'lost'
+      }
+    },
     pickCharacter (state, character) {
       state.character = character
+    },
+    resetGame (state) {
+      state.questionIndex = 0
+      state.score = 0
+      state.uiState = 'start'
     },
     updateUIState (state, uistate) {
       state.uiState = uistate
     }
-  },
-  actions: {
-  },
-  modules: {
   }
 })
