@@ -1,24 +1,3 @@
-# aliengame
+You are an alien zombie! Give the correct answers to convince the human that you are human too!
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
-
-### Compiles and minifies for production
-```
-yarn build
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Play at https://gracious-brown-6f0f97.netlify.app/
